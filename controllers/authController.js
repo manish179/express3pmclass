@@ -28,6 +28,7 @@ exports.userRegister = async (req, res) => {
                 return res.status(400).json({ error: 'something went wrong' })
         
             }
+            const url=process.env.FRONTEND_URL+'\/email\/confirmation\/'+token.token
             //send Email
             sendEmail({
                 from: 'no-reply@expresscommerce.com',
@@ -35,8 +36,13 @@ exports.userRegister = async (req, res) => {
                 subject: 'Email Verification Link',
                 text: `Hello, \n\n
                 please Verify Your account by click in the link below:\n\n
-                http:\/\/${req.headers.host}\/api\/confirmation\/${token.token}`
+                http:\/\/${req.headers.host}\/api\/confirmation\/${token.token}`,
                 //http://localhost:8000/api/confirmation/tokenvalue
+                html:`
+                    <h1>Confirm Your email account</h1>
+                    <button><a href="${url}">Click to Verify</a></button>
+                    ` 
+
         
             })
         
@@ -130,6 +136,7 @@ exports.forgetPassword=async(req,res)=>{
         return res.status(400).json({erro:'spmething went wrong'})
 
     }
+    const url=process.env.FRONTEND_URL+'\/reset\/password\/'+token.token
     //sendEmail
 
     sendEmail({
@@ -138,7 +145,11 @@ exports.forgetPassword=async(req,res)=>{
         subject: 'Password Reset Link',
         text: `Hello, \n\n
         Please Reset Your password by click in the link below:\n\n
-        http:\/\/${req.headers.host}\/api\/resetpassword\/${token.token}`
+        http:\/\/${req.headers.host}\/api\/resetpassword\/${token.token}`,
+        html:`
+        <h1>Reset Your Password</h1>
+        <button><a href="${url}">Click to reset password</a></button>
+        ` 
         //http://localhost:8000/api/resetpassword/tokenvalue
 
     })

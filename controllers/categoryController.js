@@ -9,7 +9,7 @@ exports.HelloFunction=(req,res)=>{
 
 exports.postCategory=async(req,res)=>{
     let category=new Category(req.body)
-    Category.findOne({category_name:category.category_name},async(error,date)=>{
+    Category.findOne({category_name:category.category_name},async(error,data)=>{
         if(data==null){
             category= await category.save()
             if(!category){
@@ -32,7 +32,7 @@ exports.categoryList=async(req,res)=>{
     if(!category){
         return res.status(400).json({error:'something went wrong'})
     }
-    res.json({category})
+    res.send(category)
 }
 
 //to show all category
